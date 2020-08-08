@@ -1,0 +1,38 @@
+{"intents": [
+        {"tag": "greeting",
+         "patterns": ["Hi", "How are you", "Is anyone there?", "Hello", "Good day", "Whats up"],
+         "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help?"],
+         "context_set": ""
+        },
+        {"tag": "goodbye",
+         "patterns": ["cya", "See you later", "Goodbye", "I am Leaving", "Have a Good day", "bye"],
+         "responses": ["Sad to see you go ", "Talk to you later", "Goodbye!", "goodbye sir i will be taking a nap now"],
+         "context_set": ""
+        },
+        {"tag": "age",
+         "patterns": ["how old", "how old is juliet", "what is your age", "how old are you", "age?"],
+         "responses": ["I was born on the sixteenth of october 2019 you do the maths", "i am still young i am not old do not hurt my feelings"],
+         "context_set": ""
+        },
+        {"tag": "name",
+         "patterns": ["what is your name", "what should I call you", "whats your name?", "who are you?" , "name"],
+         "responses": ["You can call me Juliet.", "I'm Juliet!", "I'm Juliet aka your personal assistant."],
+         "context_set": ""
+        },
+        {"tag": "complements",
+         "patterns": ["Thank you Juliet", "Thanks Juliet", "", "Juliet you are awesome", "Juliet you are a darling" ],
+         "responses": ["Happy to help", "always here for you sir", "you flatter me sir", "your welcome sir" ],
+         "context_set": ""
+        },
+        {"tag": "time",
+         "patterns": ["time", "what is the time ", "tell time", "juliet what is the time" ],
+         "responses": ["the time is " ],
+         "context_set": ""
+        },
+        {"tag": "date",
+         "patterns": ["date", "what is today ", "today", "juliet what is today", "what day is it", "what is today's date"],
+         "responses": ["today is " ],
+         "context_set": ""
+        }
+   ]
+}
