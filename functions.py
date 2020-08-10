@@ -7,6 +7,8 @@ import requests
 import webbrowser
 import pycountry as py
 from conversation import *
+import wolframalpha
+
 
 
 def response(text):
@@ -18,7 +20,7 @@ def response(text):
         print('driver fails to initialize')
         voices = engine.getProperty('voices')
     engine.setProperty('voice', 'HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0')
-    engine.setProperty('rate', 150)
+    engine.setProperty('rate', 120)
     engine.say(text)
     engine.runAndWait()
 
@@ -27,7 +29,6 @@ def listen_to_me():
     speech = sr.Recognizer()
     while True:
         command = ''
-        print('listening')
         with sr.Microphone() as source:
             speech.pause_threshold = 1
             speech.adjust_for_ambient_noise(source, duration=1)
@@ -35,7 +36,6 @@ def listen_to_me():
 
         try:
             command = speech.recognize_google(audio)
-            print('you said: ' + command)
             break
 
         except sr.UnknownValueError:
@@ -154,43 +154,32 @@ def talk(inp):
         results = model.predict([bag_of_words(inp, words)])[0]
         results_index = numpy.argmax(results)
         tag = labels[results_index]
-        if results[results_index] >= 0.97:
-            for tg in data["intents"]:
-                if tg["tag"] == tag:
-                    responses = tg["responses"]
-                    ans = random.choice(responses)
-                    break
-            response(ans)
-            if ans == "Sad to see you go " or ans == "Talk to you later" or ans == "Goodbye!" or ans == "goodbye sir " \
-                                                                                                        "i will be " \
-                                                                                                        "taking a nap " \
-                                                                                                        "now":
-                quit()
-            elif ans == "the time is ":
-                response(time_tell())
-            elif ans == "today is ":
-                response(tell_date())
-            break
+        if results[results_index] >= 0.89:
+            return tag
         else:
-            response("i did not get that can you come again")
+            response("i did not get you can you come again")
             break
 
 
 def site(inp):
-    domain = inp
-    prefix = [".com", ".co", ".za", ".org", ".ag"]
+    word = inp.split()
+    domain = ""
+    for o in word:
+        if o != "open":
+            domain = o
+
+    prefix = [".com", ".co", ".za", ".org", ".ag", ".edu.ng"]
     for i in prefix:
         url = 'https://www.' + domain
         url = url + i
         try:
             requests.get(url)
-            print('Web site exists')
-            print(url)
             webbrowser.open(url)
+            response('it is open')
             break
         except:
-            print('Web site does not exist')
-            print(url)
+            response('hold on, i am coming')
+        response('Web site does not exist')
 
 
 def jokes():
@@ -200,7 +189,7 @@ def jokes():
 
 
 def news():
-    country = 'france'
+    country = 'nigeria'
     cunt = py.countries.search_fuzzy(country)
     cunt = cunt.pop(0)
     cunt = cunt.alpha_2
@@ -213,8 +202,14 @@ def news():
     except:
         response("please check your internet connection and try again")
     for new in news['articles']:
-        print("##############################################################\n")
         response(str(new['title']))
-        print('______________________________________________________\n')
         response(str(new['description']))
-        print("..............................................................")
+
+
+def search(text):
+    question = text
+    app_id = 'XEVKA5-6KGXVYWRY7'
+    client = wolframalpha.Client(app_id)
+    res = client.query(question)
+    answer = next(res.results).text 
+    response(answer)
