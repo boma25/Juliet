@@ -207,9 +207,12 @@ def news():
 
 
 def search(text):
-    question = text
-    app_id = 'XEVKA5-6KGXVYWRY7'
-    client = wolframalpha.Client(app_id)
-    res = client.query(question)
-    answer = next(res.results).text 
-    response(answer)
+    try:
+        question = text
+        app_id = 'XEVKA5-6KGXVYWRY7'
+        client = wolframalpha.Client(app_id)
+        res = client.query(question)
+        answer = next(res.results).text 
+        response(answer)
+    except:
+        response("i cannot do this at the moment")
